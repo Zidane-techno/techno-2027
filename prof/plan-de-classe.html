@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plan de classe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Outil de bureau : panneau de réglages à gauche, salle vue de dessus à droite, tableau en haut */
+  --navy:#1F4E79; --accent:#2E75B6; --front:#C55A11; --sep:#B3261E; --ok:#2E7D32;
+  --bg:#EEF3F8; --card:#FFFFFF; --ink:#1B2430; --muted:#566273; --line:#C9D4E0; --soft:#F5F8FB; --seat:#FFFFFF; --floor:#F7F4EE;
+  --display:"Lexend","Segoe UI",system-ui,sans-serif; --body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
+button,select,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid #F2A900;outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+.top{background:var(--navy);color:#fff;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.top h1{font-size:19px;margin-right:auto}
+.top .status{font-size:13px;opacity:.9}
+.layout{display:grid;grid-template-columns:340px 1fr;gap:16px;padding:16px;max-width:1500px;margin:0 auto}
+@media (max-width:900px){.layout{grid-template-columns:1fr}}
+.panel{display:flex;flex-direction:column;gap:12px}
+.card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 1px 3px rgba(20,40,70,.08);display:flex;flex-direction:column;gap:10px}
+.card h2{font-size:15px;color:var(--navy)}
+label.f{display:flex;flex-direction:column;gap:3px;font-size:13px;font-weight:700;color:var(--muted)}
+input[type=text],input[type=number],select,textarea{border:2px solid var(--line);border-radius:8px;padding:6px 8px;background:#fff;width:100%}
+textarea{min-height:150px;resize:vertical;font-size:14px}
+.row{display:flex;gap:8px;align-items:end;flex-wrap:wrap}
+.row > *{flex:1}
+.btn{border:2px solid transparent;border-radius:9px;padding:7px 12px;font-family:var(--display);font-weight:600;font-size:14px;cursor:pointer;background:var(--accent);color:#fff;white-space:nowrap}
+.btn.light{background:#fff;color:var(--navy);border-color:var(--line)}
+.btn.warn{background:var(--sep)}
+.btn.big{padding:10px 14px;font-size:15px}
+.btn:hover{filter:brightness(1.07)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.note{font-size:13px;color:var(--muted);margin:0}
+.layouts{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.layouts button{border:2px solid var(--line);background:#fff;border-radius:9px;padding:8px 6px;cursor:pointer;font-weight:700;font-size:13px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.layouts button.on{border-color:var(--accent);background:#E7F0F9;color:var(--navy)}
+.layouts svg{width:46px;height:30px}
+.list{display:flex;flex-direction:column;gap:4px;max-height:330px;overflow:auto}
+.st{display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:8px;border:1px solid var(--line);background:#fff}
+.st .nm{flex:1;cursor:grab}
+.st.sel{outline:3px solid var(--accent)}
+.tag{font-size:11px;font-weight:700;border-radius:999px;padding:1px 7px;border:1.5px solid currentColor;cursor:pointer;background:#fff;color:#9AA6B5}
+.tag.on.dv{color:var(--front);background:#FBEADF}
+.chip{display:inline-flex;gap:6px;align-items:center;background:#FDE7E7;color:var(--sep);border-radius:999px;padding:2px 10px;font-size:13px;font-weight:700}
+.chip button{border:none;background:none;color:inherit;cursor:pointer;font-weight:700}
+
+.stage{display:flex;flex-direction:column;gap:12px;min-width:0}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.toolbar .sp{margin-left:auto}
+.roomwrap{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 1px 3px rgba(20,40,70,.08);overflow:auto}
+.room{position:relative;background:var(--floor);border:3px solid #8C97A6;border-radius:10px;margin:0 auto}
+.board,.desk{position:absolute;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:13px;border-radius:6px}
+.board{background:#2F4F3A;color:#fff;letter-spacing:.08em}
+.desk{background:#D8C3A5;color:#4B3A22}
+.grp{position:absolute;background:#E3D9C6;border-radius:8px}
+.seat{position:absolute;background:var(--seat);border:2px solid #8C97A6;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:13px;line-height:1.15;padding:2px 4px;cursor:pointer;user-select:none;transition:background .12s}
+.seat .n{font-weight:700;overflow:hidden;text-overflow:ellipsis;max-width:100%;white-space:nowrap}
+.seat .s{font-size:11px;color:var(--muted)}
+.seat.empty{border-style:dashed;color:#9AA6B5}
+.seat.front{box-shadow:inset 0 -4px 0 var(--front)}
+.seat.lock::after{content:"🔒";position:absolute;top:-9px;right:-7px;font-size:12px}
+.seat.over{background:#FFF4CC}
+.seat.sel{outline:3px solid var(--accent)}
+.seat.bad{border-color:var(--sep);background:#FDE7E7}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:10px;border-radius:3px;margin-right:5px;vertical-align:middle}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:10px;z-index:60}
+.dlg{position:fixed;inset:0;background:rgba(15,25,40,.55);display:grid;place-items:center;z-index:50;padding:16px}
+.dlg .in{background:#fff;border-radius:14px;padding:18px;max-width:520px;width:100%;display:flex;flex-direction:column;gap:10px}
+.dlg textarea{min-height:240px}
+.example{background:#FFF4CC;border-left:5px solid #BF8F00;padding:8px 10px;border-radius:8px;font-size:13px}
+</style>
+</head>
+<body>
+<header class="top"><a href="../index.html" style="color:#fff;text-decoration:none;font-family:var(--display);font-weight:600">← Site</a><h1>Plan de classe</h1><span class="status" id="status" aria-live="polite"></span><button class="btn light" id="saveBtn">Enregistrer</button></header>
+<main class="layout">
+  <aside class="panel">
+    <section class="card">
+      <h2>Classe</h2>
+      <div class="row"><select id="classSel" aria-label="Classe"></select><button class="btn light" id="addClass" title="Ajouter une classe">+ Classe</button></div>
+      <div class="row"><label class="f">Nom de la classe<input type="text" id="className"></label><button class="btn light" id="delClass" title="Supprimer cette classe" style="flex:0">🗑</button></div>
+    </section>
+    <section class="card">
+      <h2>Disposition de la salle</h2>
+      <div class="layouts" id="layouts"></div>
+      <div class="row" id="params"></div>
+    </section>
+    <section class="card">
+      <h2>Élèves <span id="count" class="note"></span></h2>
+      <div class="btns"><button class="btn light" id="editList">Coller / modifier la liste</button></div>
+      <p class="note">Clique sur « devant » pour placer un élève au premier rang. Glisse un nom sur une place, ou clique sur le nom puis sur la place.</p>
+      <div class="list" id="list"></div>
+    </section>
+    <section class="card">
+      <h2>À séparer</h2>
+      <div class="row"><select id="sepA" aria-label="Premier élève"></select><select id="sepB" aria-label="Second élève"></select><button class="btn light" id="addSep" style="flex:0">Ajouter</button></div>
+      <div class="btns" id="seps"></div>
+      <p class="note">Ces élèves ne seront jamais à la même table ou au même îlot lors d’un placement au hasard.</p>
+    </section>
+  </aside>
+  <section class="stage">
+    <div class="toolbar">
+      <button class="btn big" id="shuffle">🎲 Placer au hasard</button>
+      <button class="btn light" id="alpha">Ordre alphabétique</button>
+      <button class="btn light" id="clear">Vider les places</button>
+      <label class="note" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="profView"> Vue depuis le bureau</label>
+      <label class="note" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="fullName"> Nom complet</label>
+      <span class="sp"></span>
+      <button class="btn light" id="exportBtn">Télécharger pour imprimer</button>
+      <button class="btn light" id="copyBtn">Copier la liste des places</button>
+    </div>
+    <div id="exampleNote"></div>
+    <p class="note" id="privacy">Tes classes sont enregistrées dans ce navigateur uniquement : elles ne sont pas publiées sur le site. Pour les retrouver sur un autre ordinateur, recolle la liste.</p>
+    <div class="roomwrap"><div class="room" id="room"></div></div>
+    <div class="legend"><span><i style="background:#fff;border:2px dashed #8C97A6"></i>place libre</span><span><i style="background:#fff;box-shadow:inset 0 -3px 0 var(--front)"></i>élève « devant »</span><span><i style="background:#FDE7E7;border:2px solid var(--sep)"></i>élèves à séparer côte à côte</span><span>🔒 place verrouillée (double-clic) : gardée au prochain tirage</span></div>
+  </section>
+</main>
+<div id="dlg"></div>
+
+<script id="state" type="application/json">{"v":1,"savedAt":0,"current":"ex","classes":[{"id":"ex","nom":"Exemple – 4e A (noms fictifs)","exemple":true,"eleves":[{"id":"e1","nom":"Martin Léa"},{"id":"e2","nom":"Bernard Hugo","devant":true},{"id":"e3","nom":"Petit Inès"},{"id":"e4","nom":"Durand Noah"},{"id":"e5","nom":"Leroy Jade"},{"id":"e6","nom":"Moreau Adam"},{"id":"e7","nom":"Simon Chloé"},{"id":"e8","nom":"Laurent Yanis"},{"id":"e9","nom":"Lefebvre Louise","devant":true},{"id":"e10","nom":"Michel Sacha"},{"id":"e11","nom":"Garcia Lina"},{"id":"e12","nom":"David Rayan"},{"id":"e13","nom":"Bertrand Emma"},{"id":"e14","nom":"Roux Nathan"},{"id":"e15","nom":"Vincent Rose"},{"id":"e16","nom":"Fournier Malik"},{"id":"e17","nom":"Morel Zoé"},{"id":"e18","nom":"Girard Tom"},{"id":"e19","nom":"André Anna"},{"id":"e20","nom":"Mercier Ilyes"},{"id":"e21","nom":"Blanc Alice"},{"id":"e22","nom":"Guerin Lucas"},{"id":"e23","nom":"Boyer Mila"},{"id":"e24","nom":"Garnier Sami"}],"separer":[["e4","e8"]],"salle":{"type":"rangees","rangs":4,"tables":3,"ilots":6,"parIlot":4,"places":24},"places":{},"verrous":[]}]}</script>
+
+<script>
+const SRC = document.documentElement.outerHTML;   // gabarit de la page, avant tout rendu
+let S = JSON.parse(document.getElementById('state').textContent);
+try { const d = JSON.parse(localStorage.getItem('plan-classe-brouillon')); if (d && (d.savedAt >= S.savedAt) && (d.dirty || !window.claude)) { S = d; } } catch(e) {}
+let dirty = !!S.dirty, sel = null, artifactNS = null, downloadsNS = null;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const uid = () => Math.random().toString(36).slice(2, 9);
+const cls = () => S.classes.find(c => c.id === S.current) || S.classes[0];
+const byId = (c, id) => c.eleves.find(e => e.id === id);
+
+/* ---------- géométrie des dispositions ---------- */
+const SW = 96, SH = 58;   // taille d'une place
+function seatsFor(salle){
+  const seats = [], groups = []; let W = 900, H = 600;
+  const t = salle.type;
+  if (t === 'rangees'){
+    const R = salle.rangs, T = salle.tables, tw = 2*SW + 6, gx = 54, gy = 34;
+    W = Math.max(700, T*tw + (T-1)*gx + 120); const x0 = (W - (T*tw + (T-1)*gx))/2;
+    for (let r=0;r<R;r++) for (let k=0;k<T;k++){
+      const gxp = x0 + k*(tw+gx), gyp = 130 + r*(SH+gy), g = `t${r}-${k}`;
+      groups.push({x:gxp-6,y:gyp-6,w:tw+12,h:SH+12});
+      for (let s=0;s<2;s++) seats.push({id:`r${r}t${k}s${s}`, x:gxp + s*(SW+6), y:gyp, g, row:r});
+    }
+    H = 130 + R*(SH+gy) + 40;
+  } else if (t === 'ilots'){
+    const N = salle.ilots, P = salle.parIlot, per = 3, cols = 2, rowsI = P/2;
+    const iw = cols*SW + 6, ih = rowsI*SH + (rowsI-1)*6, gx = 70, gy = 50;
+    const nRow = Math.ceil(N/per); W = Math.max(700, per*iw + (per-1)*gx + 120); const x0 = (W - (per*iw + (per-1)*gx))/2;
+    for (let i=0;i<N;i++){
+      const r = Math.floor(i/per), k = i%per, gxp = x0 + k*(iw+gx), gyp = 130 + r*(ih+gy), g = `i${i}`;
+      groups.push({x:gxp-8,y:gyp-8,w:iw+16,h:ih+16,label:`Îlot ${i+1}`});
+      for (let a=0;a<rowsI;a++) for (let b=0;b<cols;b++) seats.push({id:`i${i}a${a}b${b}`, x:gxp + b*(SW+6), y:gyp + a*(SH+6), g, row:r});
+    }
+    H = 130 + nRow*(ih+gy) + 30;
+  } else { // U ou salle informatique : le long des murs
+    const P = salle.places, back = Math.round(P/3), left = Math.ceil((P-back)/2), right = P - back - left;
+    const side = Math.max(left, right), gapS = 8;
+    H = 140 + side*(SH+gapS) + SH + 60; W = Math.max(760, back*(SW+gapS) + 2*SW + 140);
+    const xl = 40, xr = W - 40 - SW, yb = H - 40 - SH;
+    let path = 0;
+    for (let i=0;i<left;i++) seats.push({id:`L${i}`, x:xl, y:130 + i*(SH+gapS), g:'L', path:path++, row:i});
+    const bx0 = (W - back*(SW+gapS) + gapS)/2;
+    for (let i=0;i<back;i++) seats.push({id:`B${i}`, x:bx0 + i*(SW+gapS), y:yb, g:'B', path:path++, row:99});
+    for (let i=right-1;i>=0;i--) seats.push({id:`R${i}`, x:xr, y:130 + i*(SH+gapS), g:'R', path:path++, row:i});
+    if (t === 'info') groups.push({x:W/2-110,y:150,w:220,h:Math.max(80,yb-200),label:'Îlot central (sans poste)'});
+  }
+  return { seats, groups, W, H };
+}
+function neighbors(salle, a, b){
+  if (salle.type === 'u' || salle.type === 'info') return Math.abs(a.path - b.path) === 1;
+  return a.g === b.g;
+}
+
+/* ---------- rendu ---------- */
+const LAYOUTS = [
+  ['rangees','Rangées','<svg viewBox="0 0 46 30"><g fill="#8C97A6">'+[0,1,2].map(r=>[0,1,2].map(k=>`<rect x="${3+k*15}" y="${4+r*9}" width="11" height="5" rx="1"/>`).join('')).join('')+'</g></svg>'],
+  ['ilots','Îlots','<svg viewBox="0 0 46 30"><g fill="#8C97A6">'+[0,1,2].map(k=>`<rect x="${3+k*15}" y="4" width="11" height="9" rx="2"/><rect x="${3+k*15}" y="17" width="11" height="9" rx="2"/>`).join('')+'</g></svg>'],
+  ['u','En U','<svg viewBox="0 0 46 30"><path d="M6 4V26H40V4" fill="none" stroke="#8C97A6" stroke-width="5"/></svg>'],
+  ['info','Salle info','<svg viewBox="0 0 46 30"><path d="M6 4V26H40V4" fill="none" stroke="#8C97A6" stroke-width="5" stroke-dasharray="4 2"/><rect x="17" y="9" width="12" height="10" rx="2" fill="#C9D4E0"/></svg>']
+];
+function render(){
+  const c = cls();
+  $('classSel').innerHTML = S.classes.map(x => `<option value="${x.id}" ${x.id===c.id?'selected':''}>${esc(x.nom)}</option>`).join('');
+  $('className').value = c.nom;
+  $('layouts').innerHTML = LAYOUTS.map(([k,l,svg]) => `<button type="button" data-lay="${k}" class="${c.salle.type===k?'on':''}" aria-pressed="${c.salle.type===k}">${svg}${l}</button>`).join('');
+  const p = c.salle, num = (k, l, min, max) => `<label class="f">${l}<input type="number" min="${min}" max="${max}" data-p="${k}" value="${p[k]}"></label>`;
+  $('params').innerHTML = p.type === 'rangees' ? num('rangs','Rangs',1,10) + num('tables','Tables doubles par rang',1,6)
+    : p.type === 'ilots' ? num('ilots','Nombre d’îlots',1,12) + `<label class="f">Places par îlot<select data-p="parIlot"><option ${p.parIlot==4?'selected':''}>4</option><option ${p.parIlot==6?'selected':''}>6</option></select></label>`
+    : num('places', p.type==='info' ? 'Nombre de postes' : 'Nombre de places', 4, 48);
+  const { seats } = seatsFor(p);
+  const placedIds = new Set(Object.values(c.places));
+  $('count').textContent = `· ${c.eleves.length} élèves · ${seats.length} places`;
+  $('list').innerHTML = c.eleves.length ? [...c.eleves].sort((a,b)=>a.nom.localeCompare(b.nom,'fr')).map(e => `<div class="st ${sel===e.id?'sel':''}" draggable="true" data-st="${e.id}"><span class="nm">${esc(e.nom)}</span>${placedIds.has(e.id)?'':'<span class="note">non placé</span>'}<button type="button" class="tag dv ${e.devant?'on':''}" data-dv="${e.id}" aria-pressed="${!!e.devant}">devant</button></div>`).join('') : '<p class="note">Aucun élève. Clique sur « Coller / modifier la liste ».</p>';
+  const opts = '<option value="">—</option>' + c.eleves.map(e => `<option value="${e.id}">${esc(e.nom)}</option>`).join('');
+  $('sepA').innerHTML = opts; $('sepB').innerHTML = opts;
+  $('seps').innerHTML = c.separer.map(([a,b],i) => byId(c,a) && byId(c,b) ? `<span class="chip">${esc(byId(c,a).nom)} ✕ ${esc(byId(c,b).nom)}<button type="button" data-unsep="${i}" aria-label="Retirer">×</button></span>` : '').join('') || '<p class="note">Aucune contrainte.</p>';
+  $('exampleNote').innerHTML = c.exemple ? '<div class="example"><b>Exemple :</b> cette classe contient des noms fictifs pour te montrer l’outil. Clique sur « + Classe » pour créer la tienne, ou colle ta liste ici.</div>' : '';
+  renderRoom();
+  $('status').textContent = dirty ? 'Modifications non enregistrées' : (S.savedAt ? 'Enregistré' : '');
+  $('saveBtn').disabled = !dirty;
+}
+function shortName(nom){
+  if ($('fullName').checked) return nom;
+  const parts = nom.trim().split(/\s+/); if (parts.length < 2) return nom;
+  return parts.slice(1).join(' ') + ' ' + parts[0][0] + '.';
+}
+function conflicts(c, seats){
+  const bad = new Set(); const at = {}; seats.forEach(s => at[s.id] = s);
+  const pos = {}; Object.entries(c.places).forEach(([sid,eid]) => pos[eid] = at[sid]);
+  c.separer.forEach(([a,b]) => { if (pos[a] && pos[b] && neighbors(c.salle, pos[a], pos[b])) { bad.add(pos[a].id); bad.add(pos[b].id); } });
+  return bad;
+}
+function renderRoom(){
+  const c = cls(), { seats, groups, W, H } = seatsFor(c.salle), flip = $('profView').checked;
+  const X = (x, w) => flip ? W - x - w : x, Y = (y, h) => flip ? H - y - h : y;
+  const bad = conflicts(c, seats);
+  const room = $('room'); room.style.width = W + 'px'; room.style.height = H + 'px';
+  let h = `<div class="board" style="left:${X(W/2-170,340)}px;top:${Y(14,30)}px;width:340px;height:30px">TABLEAU</div>`;
+  h += `<div class="desk" style="left:${X(W-210,150)}px;top:${Y(62,40)}px;width:150px;height:40px">Bureau du professeur</div>`;
+  groups.forEach(g => h += `<div class="grp" style="left:${X(g.x,g.w)}px;top:${Y(g.y,g.h)}px;width:${g.w}px;height:${g.h}px">${g.label?`<span style="position:absolute;${flip?'bottom':'top'}:-18px;left:4px;font-size:11px;color:#7A6A50">${g.label}</span>`:''}</div>`);
+  const minRow = Math.min(...seats.map(s => s.row));
+  seats.forEach((s, i) => {
+    const eid = c.places[s.id], e = eid && byId(c, eid);
+    const k = [ 'seat', e ? '' : 'empty', e && e.devant ? 'front' : '', c.verrous.includes(s.id) ? 'lock' : '', bad.has(s.id) ? 'bad' : '', sel === 'seat:' + s.id ? 'sel' : '' ].join(' ');
+    h += `<div class="${k}" data-seat="${s.id}" tabindex="0" role="button" draggable="${!!e}" aria-label="Place ${i+1}${e?' : '+esc(e.nom):' libre'}" style="left:${X(s.x,SW)}px;top:${Y(s.y,SH)}px;width:${SW}px;height:${SH}px">${e ? `<span class="n">${esc(shortName(e.nom))}</span>` : ''}<span class="s">${i+1}</span></div>`;
+  });
+  room.innerHTML = h;
+}
+
+/* ---------- placement ---------- */
+function shuffleArr(a){ for (let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; }
+function place(mode){
+  const c = cls(), { seats } = seatsFor(c.salle);
+  const locked = {}; c.verrous.forEach(sid => { if (c.places[sid]) locked[sid] = c.places[sid]; });
+  const lockedE = new Set(Object.values(locked));
+  const free = seats.filter(s => !locked[s.id]);
+  let todo = c.eleves.filter(e => !lockedE.has(e.id));
+  if (todo.length > free.length) toast(`Il manque ${todo.length - free.length} place(s) : ajoute des tables.`);
+  if (mode === 'alpha'){
+    todo.sort((a,b)=>a.nom.localeCompare(b.nom,'fr'));
+    const order = [...free].sort((a,b)=> a.y - b.y || a.x - b.x);
+    c.places = {...locked}; todo.forEach((e,i) => { if (order[i]) c.places[order[i].id] = e.id; });
+    return changed();
+  }
+  let best = null, bestBad = Infinity;
+  for (let tries=0; tries<400; tries++){
+    const fronts = shuffleArr(todo.filter(e => e.devant)), others = shuffleArr(todo.filter(e => !e.devant));
+    const byY = shuffleArr([...free]).sort((a,b)=>a.y-b.y);
+    const k = Math.max(fronts.length, free.filter(s => s.y === byY[0]?.y).length);
+    const frontSeats = shuffleArr(byY.slice(0, k)), rest = shuffleArr([...byY.slice(k)]);
+    const pl = {...locked};
+    fronts.forEach((e,i) => { if (frontSeats[i]) pl[frontSeats[i].id] = e.id; });
+    const remainSeats = shuffleArr([...frontSeats.slice(fronts.length), ...rest]);
+    others.forEach((e,i) => { if (remainSeats[i]) pl[remainSeats[i].id] = e.id; });
+    const nb = conflicts({...c, places: pl}, seats).size;
+    if (nb < bestBad){ best = pl; bestBad = nb; if (nb === 0) break; }
+  }
+  c.places = best || {};
+  if (bestBad > 0) toast('Impossible de séparer tous les élèves avec cette disposition.');
+  changed();
+}
+function moveTo(eid, sid){
+  const c = cls(); const from = Object.keys(c.places).find(k => c.places[k] === eid);
+  const other = c.places[sid];
+  if (from) { if (other) c.places[from] = other; else delete c.places[from]; }
+  c.places[sid] = eid; changed();
+}
+function changed(){ dirty = true; S.dirty = true; try { localStorage.setItem('plan-classe-brouillon', JSON.stringify(S)); } catch(e) {} render(); }
+
+/* ---------- événements ---------- */
+document.addEventListener('click', e => {
+  const t = e.target;
+  const lay = t.closest('[data-lay]'); if (lay){ const c = cls(); c.salle.type = lay.dataset.lay; pruneSeats(); return changed(); }
+  const dv = t.closest('[data-dv]'); if (dv){ const x = byId(cls(), dv.dataset.dv); x.devant = !x.devant; return changed(); }
+  const us = t.closest('[data-unsep]'); if (us){ cls().separer.splice(+us.dataset.unsep, 1); return changed(); }
+  const st = t.closest('[data-st]'); if (st){ sel = sel === st.dataset.st ? null : st.dataset.st; return render(); }
+  const seat = t.closest('[data-seat]');
+  if (seat){
+    const c = cls(), sid = seat.dataset.seat;
+    if (sel && !sel.startsWith('seat:')){ moveTo(sel, sid); sel = null; return; }
+    if (sel && sel.startsWith('seat:')){ const a = sel.slice(5); sel = null; if (a === sid) return render(); const ea = c.places[a], eb = c.places[sid]; if (ea) { if (eb) c.places[a] = eb; else delete c.places[a]; c.places[sid] = ea; } return changed(); }
+    if (c.places[sid]){ sel = 'seat:' + sid; return render(); }
+  }
+});
+document.addEventListener('dblclick', e => { const seat = e.target.closest('[data-seat]'); if (!seat) return; const c = cls(), sid = seat.dataset.seat; if (!c.places[sid]) return; const i = c.verrous.indexOf(sid); if (i >= 0) c.verrous.splice(i,1); else c.verrous.push(sid); sel = null; changed(); });
+document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-seat]')){ e.preventDefault(); e.target.click(); } });
+document.addEventListener('dragstart', e => { const st = e.target.closest('[data-st]'), seat = e.target.closest('[data-seat]'); if (st) e.dataTransfer.setData('text/plain', 'e:' + st.dataset.st); else if (seat) e.dataTransfer.setData('text/plain', 's:' + seat.dataset.seat); });
+document.addEventListener('dragover', e => { const s = e.target.closest('[data-seat]'); if (s){ e.preventDefault(); s.classList.add('over'); } });
+document.addEventListener('dragleave', e => { const s = e.target.closest('[data-seat]'); if (s) s.classList.remove('over'); });
+document.addEventListener('drop', e => {
+  const s = e.target.closest('[data-seat]'); if (!s) return; e.preventDefault();
+  const d = e.dataTransfer.getData('text/plain'), c = cls();
+  if (d.startsWith('e:')) moveTo(d.slice(2), s.dataset.seat);
+  else if (d.startsWith('s:')){ const a = d.slice(2), b = s.dataset.seat; if (a === b) return; const ea = c.places[a], eb = c.places[b]; if (eb) c.places[a] = eb; else delete c.places[a]; c.places[b] = ea; changed(); }
+});
+document.addEventListener('change', e => {
+  const t = e.target, c = cls();
+  if (t.dataset.p){ c.salle[t.dataset.p] = Math.max(+t.min || 1, Math.min(+t.max || 99, parseInt(t.value) || 1)); pruneSeats(); return changed(); }
+  if (t.id === 'classSel'){ S.current = t.value; sel = null; return render(); }
+  if (t.id === 'className'){ c.nom = t.value.trim() || 'Sans nom'; return changed(); }
+  if (t.id === 'profView' || t.id === 'fullName') return renderRoom();
+});
+function pruneSeats(){ const c = cls(), ids = new Set(seatsFor(c.salle).seats.map(s => s.id)); Object.keys(c.places).forEach(k => { if (!ids.has(k)) delete c.places[k]; }); c.verrous = c.verrous.filter(k => ids.has(k)); }
+$('shuffle').onclick = () => place('random');
+$('alpha').onclick = () => place('alpha');
+$('clear').onclick = () => { const c = cls(); const keep = {}; c.verrous.forEach(k => { if (c.places[k]) keep[k] = c.places[k]; }); c.places = keep; changed(); };
+$('addSep').onclick = () => { const a = $('sepA').value, b = $('sepB').value; if (!a || !b || a === b) return toast('Choisis deux élèves différents.'); cls().separer.push([a,b]); changed(); };
+$('addClass').onclick = () => { const id = uid(); S.classes.push({ id, nom:'Nouvelle classe', eleves:[], separer:[], salle:{type:'rangees',rangs:5,tables:3,ilots:6,parIlot:4,places:24}, places:{}, verrous:[] }); S.current = id; changed(); editList(); };
+$('delClass').onclick = () => {
+  const c = cls();
+  const d = dialog(`<h2 style="font-size:18px">Supprimer « ${esc(c.nom)} » ?</h2><p style="margin:0">La liste des élèves et le plan de cette classe seront supprimés.</p><div class="btns"><button class="btn warn" id="yes">Supprimer</button><button class="btn light" data-close>Annuler</button></div>`);
+  d.querySelector('#yes').onclick = () => { S.classes = S.classes.filter(x => x.id !== c.id); if (!S.classes.length) S.classes.push({ id:uid(), nom:'Nouvelle classe', eleves:[], separer:[], salle:{type:'rangees',rangs:5,tables:3,ilots:6,parIlot:4,places:24}, places:{}, verrous:[] }); S.current = S.classes[0].id; closeDlg(); changed(); };
+};
+$('editList').onclick = editList;
+function editList(){
+  const c = cls();
+  const d = dialog(`<h2 style="font-size:18px">Liste des élèves – ${esc(c.nom)}</h2><p class="note">Un élève par ligne, « Nom Prénom » (copié depuis Pronote ou un tableur). Les élèves déjà placés gardent leur place.</p><textarea id="ta">${esc(c.eleves.map(e=>e.nom).join('\n'))}</textarea><div class="btns"><button class="btn" id="ok">Valider</button><button class="btn light" data-close>Annuler</button></div>`);
+  d.querySelector('#ok').onclick = () => {
+    const names = d.querySelector('#ta').value.split(/\r?\n/).map(s => s.replace(/\t/g,' ').replace(/\s+/g,' ').trim()).filter(Boolean);
+    const old = c.eleves; c.eleves = names.map(n => old.find(o => o.nom === n) || { id: uid(), nom: n });
+    const ids = new Set(c.eleves.map(e => e.id));
+    Object.keys(c.places).forEach(k => { if (!ids.has(c.places[k])) delete c.places[k]; });
+    c.separer = c.separer.filter(([a,b]) => ids.has(a) && ids.has(b));
+    c.exemple = false; closeDlg(); changed();
+  };
+}
+function dialog(html){ const d = $('dlg'); d.innerHTML = `<div class="dlg" role="dialog" aria-modal="true"><div class="in">${html}</div></div>`; d.querySelector('.dlg').addEventListener('click', e => { if (e.target.classList.contains('dlg') || e.target.dataset.close !== undefined) closeDlg(); }); return d; }
+function closeDlg(){ $('dlg').innerHTML = ''; }
+function toast(t){ const x = document.createElement('div'); x.className = 'toast'; x.textContent = t; document.body.appendChild(x); setTimeout(() => x.remove(), 3000); }
+
+/* ---------- liste texte et export ---------- */
+function seatList(){
+  const c = cls(), { seats } = seatsFor(c.salle);
+  return seats.map((s,i) => { const e = c.places[s.id] && byId(c, c.places[s.id]); return { n: i+1, nom: e ? e.nom : '' }; });
+}
+$('copyBtn').onclick = () => {
+  const c = cls(), lines = [`Plan de classe – ${c.nom}`, ...seatList().map(x => `Place ${x.n} : ${x.nom || '(libre)'}`)];
+  const d = dialog(`<h2 style="font-size:18px">Liste des places</h2><textarea readonly id="cp">${esc(lines.join('\n'))}</textarea><div class="btns"><button class="btn" id="go">Copier</button><button class="btn light" data-close>Fermer</button></div>`);
+  d.querySelector('#go').onclick = async () => { const ta = d.querySelector('#cp'); try { await navigator.clipboard.writeText(ta.value); toast('Liste copiée.'); } catch(e){ ta.select(); toast('Sélectionne le texte puis Ctrl + C.'); } };
+};
+function printable(){
+  const c = cls(), { seats, groups, W, H } = seatsFor(c.salle), flip = $('profView').checked;
+  const X = (x, w) => flip ? W - x - w : x, Y = (y, h) => flip ? H - y - h : y;
+  let r = `<div style="position:absolute;left:${X(W/2-170,340)}px;top:${Y(14,30)}px;width:340px;height:30px;background:#2F4F3A;color:#fff;display:grid;place-items:center;font-weight:bold;border-radius:5px">TABLEAU</div><div style="position:absolute;left:${X(W-210,150)}px;top:${Y(62,40)}px;width:150px;height:40px;background:#D8C3A5;display:grid;place-items:center;font-size:12px;border-radius:5px">Bureau du professeur</div>`;
+  groups.forEach(g => r += `<div style="position:absolute;left:${X(g.x,g.w)}px;top:${Y(g.y,g.h)}px;width:${g.w}px;height:${g.h}px;background:#EEE6D6;border-radius:8px"></div>`);
+  seats.forEach((s,i) => { const e = c.places[s.id] && byId(c, c.places[s.id]); r += `<div style="position:absolute;left:${X(s.x,SW)}px;top:${Y(s.y,SH)}px;width:${SW}px;height:${SH}px;border:2px ${e?'solid':'dashed'} #777;border-radius:7px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:12.5px;line-height:1.15">${e?`<b>${esc(shortName(e.nom))}</b>`:''}<span style="font-size:10px;color:#777">${i+1}</span></div>`; });
+  const date = new Date().toLocaleDateString('fr-FR');
+  return `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>Plan de classe – ${esc(c.nom)}</title><style>body{font-family:Arial,sans-serif;margin:20px;color:#1B2430}h1{font-size:20px;margin:0 0 4px}p{margin:0 0 12px;color:#566273;font-size:13px}.room{position:relative;width:${W}px;height:${H}px;border:3px solid #8C97A6;border-radius:10px;background:#FBF9F5;transform-origin:top left}@page{size:A4 landscape;margin:10mm}@media print{button{display:none}.room{transform:scale(${Math.min(1, 1050/W, 640/H).toFixed(3)})}}</style></head><body><button onclick="window.print()" style="float:right;padding:8px 14px;font-size:14px">Imprimer</button><h1>Plan de classe – ${esc(c.nom)}</h1><p>${flip?'Vue depuis le bureau du professeur':'Vue depuis le fond de la salle'} · ${date} · ${c.eleves.length} élèves</p><div class="room">${r}</div></body></html>`;
+}
+$('exportBtn').onclick = async () => {
+  const c = cls(), name = `plan-de-classe-${c.nom.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-zA-Z0-9]+/g,'-').toLowerCase()}.html`;
+  if (downloadsNS){ try { await downloadsNS.save({ filename: name, data: new Blob([printable()], { type: 'text/html' }) }); toast('Ouvre le fichier puis clique sur « Imprimer ».'); return; } catch(e){ if (e && e.code === 'declined') return; } }
+  try { const url = URL.createObjectURL(new Blob([printable()], { type: 'text/html' })); const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000); toast('Ouvre le fichier téléchargé puis clique sur « Imprimer ».'); }
+  catch(e){ toast('Téléchargement indisponible ici : utilise « Copier la liste des places ».'); }
+};
+
+/* ---------- enregistrement ---------- */
+$('saveBtn').onclick = save;
+async function save(){
+  S.savedAt = Date.now(); S.dirty = false;
+  const json = JSON.stringify(S).replace(/</g, '\\u003c');
+  if (!artifactNS){ dirty = false; try { localStorage.setItem('plan-classe-brouillon', JSON.stringify(S)); } catch(e) {} render(); toast('Enregistré dans ce navigateur, sur cet ordinateur.'); return; }
+  const html = '<!DOCTYPE html>\n' + SRC.replace(/(<script id="state" type="application\/json">)[\s\S]*?(<\/script>)/, (m, a, b) => a + json + b);
+  $('status').textContent = 'Enregistrement…'; dirty = false;
+  try { try { localStorage.removeItem('plan-classe-brouillon'); } catch(e) {} await artifactNS.publish(html); }
+  catch(e){ S.dirty = true; dirty = true; render(); toast(e && (e.code === 'not_granted' || e.code === 'not_writer') ? 'Lecture seule : tu ne peux pas modifier ce plan.' : 'Enregistrement impossible, réessaie.'); }
+}
+window.addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+render();
+if (window.claude && claude.use){
+  claude.use('artifact').then(a => { artifactNS = a; }).catch(() => {});
+  claude.use('downloads').then(d => { downloadsNS = d; }).catch(() => {});
+}
+</script>
+</body>
+</html>
