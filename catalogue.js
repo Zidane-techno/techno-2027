@@ -49,7 +49,7 @@ const NIVEAUX = [
       { titre: "Les réseaux sociaux",
         theme: "Thème 2 · graphes, petit monde, cyberviolence",
         description: "Comment les réseaux sociaux nous relient, et à quel prix pour nos données.",
-        seances: 6, lien: "snt/reseaux-sociaux.html", statut: "disponible" },
+        seances: 5, lien: "snt/reseaux-sociaux.html", statut: "disponible" },
     ]
   }
 ];
